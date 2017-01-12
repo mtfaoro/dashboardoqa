@@ -1,0 +1,42 @@
+Rotas:
+
+
+POST: 
+	/signup
+	 	- result = {usuario: Object(),
+	 	             status: String,
+	 	   	        message: String,
+	 	   			  token: String
+	 	   		 	};
+	/authenticate
+		- results = {user : Object(),
+				    status: String,
+	 	   	       message: String,
+	 	   			 token: String
+	 	   		 	};
+	/settings
+		- results = {settings : Object(),
+				        status: String,
+	 	   	           message: String	 	   			
+	 	   		 	};
+	/events
+		- results = {events : Object(),
+				      status: String,
+	 	   	         message: String	 	   			
+	 	   		 	};
+	/person
+		- results = {person : Object(),
+					  status: String,
+	 	   	         message: String	 	   			
+	 	   		 	};
+
+GET: 
+	/specialities
+		- results = Object();
+		
+	/doctorsByIds/:params
+		- results = Object();
+
+	/city
+		- results = Object();
+

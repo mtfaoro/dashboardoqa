@@ -1,0 +1,254 @@
+<div class="breadcrumbs" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#">Página Inicial</a>
+        </li>
+        <li class="active">Configurador</li>
+    </ul>
+</div>
+<div class="page-content">
+	<script type="text/ng-template" id="periodModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Período de trabalho</h3>
+        </div>
+        <div class="modal-body">
+			<form id="appointmentForm" method="post" class="form-horizontal">				
+								    
+				<input type="hidden" class="form-control" ng-model="workTimeConfig._id"  />				
+				<input type="hidden" class="form-control" ng-model="workTimeConfig.doctor" />
+
+				<div class="form-group">
+					 <label class="col-xs-2 control-label">Dia</label>
+					 <div class="col-xs-5 selectContainer">
+						<select class="form-control" name="action" ng-disabled="false" ng-model="workTime.dayOfWeek">
+							<!--option value="">Ação para consulta </option-->
+							<option value="1">Segunda Feira</option>
+							<option value="2">Terça Feira</option>
+							<option value="3">Quarta Feira</option>
+							<option value="4">Quinta Feira</option>
+							<option value="5">Sexta Feira</option>
+						</select>
+					 </div>
+				</div>
+				<!--div class="form-group">
+					<label class="col-xs-5 control-label">Horário de Atendimento</label>
+				</div-->
+				<div class="form-group">
+					 <label class="col-xs-2 control-label" for="ex1">Inicial</label>
+					<div class="col-xs-2">
+					  <input type="text" class="form-control" name="timeIni" ng-model="workTime.timeIni" mask="99:99" mask-clean="true" />
+					</div>
+					<label class="col-xs-1 control-label" for="ex1">Final</label>
+					<div class="col-xs-2">
+					  <input type="text" class="form-control" name="timeEnd" ng-model="workTime.timeEnd" mask="99:99" mask-clean="true" />
+					</div>
+				</div>
+								
+			</form>
+        </div>
+        <div class="modal-footer"> 
+			<button class="btn btn-primary" type="button" ng-disabled="!isActive"  ng-click="ok()">Confirmar</button>						
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancelar</button>
+        </div>
+    </script>
+
+	<div class="row">
+		<div class="space-6"></div>
+
+		<div class="col-sm-10 col-sm-offset-1">
+			<div id="login-box" class="login-box visible widget-box no-border">	
+			    <div class="widget-body">
+			        <div class="widget-main">
+			            <h4 class="header blue lighter bigger">
+			            	<i class="icon-coffee green"></i>
+			                Configurador da Agenda
+			            </h4>
+
+	                    <div class="space-16"></div>
+
+	                    <form id="doctorForm" role="form" method="post">	                    
+							<div class="form-group">
+								<label for="exampleInputPeriod1">Período da agenda</label>								
+								<div class="row">
+							        <div class="col-md-6">
+							            <p class="input-group">
+							              <input type="text" class="form-control" 
+							                	 uib-datepicker-popup="dd/MM/yyyy" ng-model="workTimeConfig.startDate" is-open="status.opened" 
+							                	 datepicker-options="dateOptions" date-disabled="disabled(date, mode)"  
+							                	 close-text="Fechar" current-text="Hoje" clear-text="Limpar" />
+							              <span class="input-group-btn">
+							                <button type="button" class="btn btn-default" ng-click="openSchedule($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+							              </span>
+							            </p>
+							            <!--  min-date="minDate" max-date="maxDate" -->
+							        </div>							        
+							        <div class="col-md-6">
+							            <p class="input-group">
+							              <input type="text" class="form-control" 
+							              		 uib-datepicker-popup="{{format}}" ng-model="workTimeConfig.limitDate" is-open="status.opened" 
+							              		 datepicker-options="dateOptions" date-disabled="disabled(date, mode)"
+							              		 close-text="Fechar" current-text="Hoje" clear-text="Limpar" />
+							              <span class="input-group-btn">
+							                <button type="button" class="btn btn-default" ng-click="openSchedule($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+							              </span>
+							            </p>
+							            <!--  min-date="minDate" max-date="maxDate" -->
+							        </div>
+							    </div>
+							</div>
+							
+							<div class="form-group row">
+
+								<div class="col-md-6">
+								    <div class="col-xs-3">								       
+								       <label for="InputPeriodHr1">Duração da consulta:</label>	
+								      <select class="form-control" ng-model="workTimeConfig.duration" ng-options="opt for opt in options.mDuration"></select>
+								    </div>									
+								</div>
+
+								<div class="col-md-6">
+									<label for="InputPeriodHr1">Qdt. particulares por dia:</label>
+									<div class="input-group" title="Quantidade de consultas particulares por dia">	
+		  								<span class="input-group-addon">Qtd.</span>  								
+		  								<div class="row">
+											<div class="col-xs-2">										
+												<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" ng-model="workTimeConfig.particularQtd">
+											</div>
+										</div>															 	
+									</div>
+								</div>
+
+							</div>							
+							<div class="header blue lighter bigger"></div>
+
+							<div class="form-group row">
+								<label for="InputPeriodHr1">Horário de Atendimento</label>	
+								<!--p>Select a tab by setting active binding to true:</p>
+								<p>
+								  <button type="button" class="btn btn-default btn-sm" ng-click="scope.active = 1">Select second tab</button>
+								  <button type="button" class="btn btn-default btn-sm" ng-click="scope.active = 2">Select third tab</button>
+								</p>
+								<p>
+								  <button type="button" class="btn btn-default btn-sm" ng-click="tabs[1].disabled = ! tabs[1].disabled">Enable / Disable third tab</button>
+								</p>
+								<hr /-->
+
+								<uib-tabset active="active">
+									<button class="btn btn-primary fc-event" type="button" ng-click="openView('add')" > Novo período </button>
+									<uib-tab index="0" heading="Segunda-feira" select="setTabSelected(1)">										
+									  	<table st-table="rowCollection"   class="table table-striped">
+											<thead>
+												<tr>
+													<!--th>ID</th-->
+											    	<th>Inicio</th>
+												 	<th>Fim</th>
+												 	<th>Acao</th>
+										      	</tr>
+									    	</thead>
+									    	<tbody >						    	  
+										    	<tr ng-repeat="day in workTimeConfig.monday" >
+										    	    <!--td># {{$index}}  </td-->
+										    		<td>{{day.WorkTime.ini}} Horas </td>
+										    		<td>{{day.WorkTime.end}} Horas </td>
+										    		<td>
+										    		 <button ng-click="removePeriod($index, workTimeConfig.monday)"><i class="glyphicon glyphicon-remove"></i></button> 
+										    		</td>
+										    	</tr>						       	
+											</tbody>
+							    		</table>
+								  	</uib-tab>
+									<uib-tab index="0" heading="Terça-feira" select="setTabSelected(2)">
+									  	<table st-table="rowCollection"   class="table table-striped">
+											<thead>
+												<tr>
+											    	<th>Inicio</th>
+												 	<th>Fim</th>
+										      	</tr>
+									    	</thead>
+									    	<tbody >						    	  
+										    	<tr ng-repeat="day in workTimeConfig.tuesday" >
+										    		<td>{{day.WorkTime.ini}} Horas </td>
+										    		<td>{{day.WorkTime.end}} Horas </td>
+										    		<td> 
+										    		<button ng-click="removePeriod($index, workTimeConfig.tuesday)"><i class="glyphicon glyphicon-remove"></i></button>
+										    		</td> 
+										    	</tr>						       	
+											</tbody>
+							    		</table>
+								  	</uib-tab>
+								  	<uib-tab index="0" heading="Quarta-feira" select="setTabSelected(3)">
+									  	<table st-table="rowCollection"   class="table table-striped">
+											<thead>
+												<tr>
+											    	<th>Inicio</th>
+												 	<th>Fim</th>
+										      	</tr>
+									    	</thead>
+									    	<tbody >						    	  
+										    	<tr ng-repeat="day in workTimeConfig.wednesday" >
+										    		<td>{{day.WorkTime.ini}} Horas </td>
+										    		<td>{{day.WorkTime.end}} Horas </td>
+										    		<td> 
+										    		<button ng-click="removePeriod($index, workTimeConfig.wednesday)"><i class="glyphicon glyphicon-remove"></i></button> 
+										    		</td>
+										    	</tr>						       	
+											</tbody>
+							    		</table>
+								  	</uib-tab>
+								  	<uib-tab index="0" heading="Quinta-feira" select="setTabSelected(4)">
+									  	<table st-table="rowCollection"   class="table table-striped">
+											<thead>
+												<tr>
+											    	<th>Inicio</th>
+												 	<th>Fim</th>
+										      	</tr>
+									    	</thead>
+									    	<tbody >						    	  
+										    	<tr ng-repeat="day in workTimeConfig.thuersday" >
+										    		<td>{{day.WorkTime.ini}} Horas </td>
+										    		<td>{{day.WorkTime.end}} Horas </td>
+										    		<td> <button ng-click="removePeriod($index, workTimeConfig.thuersday)"><i class="glyphicon glyphicon-remove"></i></button> 
+										    		</td>
+										    	</tr>						       	
+											</tbody>
+							    		</table>
+								  	</uib-tab>
+								  	<uib-tab index="0" heading="Sexta-feira" select="setTabSelected(5)">
+									  	<table st-table="rowCollection"   class="table table-striped">
+											<thead>
+												<tr>
+											    	<th>Inicio</th>
+												 	<th>Fim</th>
+										      	</tr>
+									    	</thead>
+									    	<tbody >						    	  
+										    	<tr ng-repeat="day in workTimeConfig.friday" >
+										    		<td>{{day.WorkTime.ini}} Horas </td>
+										    		<td>{{day.WorkTime.end}} Horas </td>
+										    		<td> <button ng-click="removePeriod($index, workTimeConfig.friday)"><i class="glyphicon glyphicon-remove"></i></button> 
+										    		</td>
+										    	</tr>						       	
+											</tbody>
+							    		</table>
+								  	</uib-tab>								
+								</uib-tabset>
+							</div>			
+
+							<div class="header blue lighter bigger"></div>
+
+							<div class="row">
+								<div class="form-group">
+							      <button class="btn btn-primary" ng-click="saveSettings(workTimeConfig)" ng-disabled="!isCustomer && !isActive" >Salvar Configurações</button>	
+							    </div>
+						    </div>
+						 
+						</form>
+			        </div>
+			    </div>		
+			</div> 
+			
+		</div> <!-- /position-relative -->
+	</div>
+</div> <!-- /.page-content -->
+

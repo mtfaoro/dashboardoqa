@@ -1,0 +1,108 @@
+<div class="breadcrumbs" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <a href="#">Páginal Inicial</a>
+        </li>
+        <li class="active">Cadastro</li>
+    </ul>
+</div>
+<div class="page-content">
+    <div class="row">
+        <div class="space-6"></div>
+        <div class="col-sm-6 col-sm-offset-1">
+            <div id="login-box" class="login-box visible widget-box no-border">
+                <div class="widget-body">
+                    <div class="widget-main">
+                        <h4 class="header blue lighter bigger">
+                            Cadastre-se O Quanto Antes 
+                        </h4>
+                        <br/>
+                        <form name="signupForm" class="form-horizontal" role="form">
+
+                            <div class="form-group" ng-class="{ 'has-error' : signupForm.email.$dirty && signupForm.email.$invalid && !signupForm.email.$pristine }">
+                                <label class="col-sm-5 control-label no-padding-right" for="email">Email</label>
+                                <div class="col-sm-7">
+                                    <span class="block input-icon input-icon-right">
+                                        <input type="text" class="form-control" placeholder="Email" name="email" ng-minlength="8" ng-model="signup.email" focus/>                                        
+                                        <p ng-show="signupForm.email.$error.minlength" class="help-block">Email invalido ou muito curto</p>
+                                    </span>
+                                </div>                                
+                            </div>
+
+                            <div class="form-group" ng-class="{ 'has-error' : signupForm.password.$dirty && signupForm.password.$invalid && !signupForm.password.$pristine }">
+                                <label class="col-sm-5 control-label no-padding-right" for="password">Senha</label>
+                                <div class="col-sm-7">
+                                    <span class="block input-icon input-icon-right">
+                                        <input type="password" class="form-control" name="password" placeholder="Password" 
+                                                   ng-minlength="8" ng-model="signup.password" required/>                                        
+                                    </span>
+                                    <p ng-show="signupForm.password.$error.minlength" class="help-block">Senha muito curta, para sua segurança informa uma senha maior.</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group" ng-class="{ 'has-error' : signupForm.password2.$dirty && signupForm.password2.$invalid && !signupForm.password.$pristine }">
+                                <label class="col-sm-5 control-label no-padding-right" for="password2">Confirmação de senha</label>
+                                <div class="col-sm-7">
+                                    <span class="block input-icon input-icon-right">
+                                        <input type="password" class="form-control" name="password2" 
+                                                placeholder="Password Again" ng-minlength="8" ng-model="signup.password2" password-match="signup.password" required ng-blur="checkPassword(signup.password, signup.password2)"/>
+
+                                         <p ng-show="signupForm.password2.$error.minlength" class="help-block">Senha muito curta, para sua segurança informa uma senha maior.</p>
+
+                                        <!--p ng-show="signupForm.password2.$error.passwordMatch" 
+                                            class="help-block">As senhas informadas não coincidem.</p-->
+                                        <!--small class="errorMessage" data-ng-show="signupForm.password2.$dirty && signupForm.password2.$error.required"> Informe a senha novamente.</small>
+                                        <small class="errorMessage" data-ng-show="signupForm.password2.$error.passwordNoMatch"> As senhas informadas não coincidem.</small-->
+
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label no-padding-right" for="name">Nome</label>
+                                <div class="col-sm-7">
+                                    <span class="block input-icon input-icon-right">
+                                        <input type="text" class="form-control" placeholder="Name" ng-model="signup.name" />
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-5 control-label no-padding-right" for="phone">Telefone</label>
+                                <div class="col-sm-7">
+                                    <span class="block input-icon input-icon-right">
+                                        <input type="text" class="form-control" placeholder="Phone" name="phone" ng-model="signup.phone" mask="(99) 9999-9999" mask-clean="true"/>
+                                    </span>
+                                </div>
+                            </div>
+ 
+                            <!--div class="form-group">
+                                <label class="col-sm-5 control-label no-padding-right" for="address">Endereço</label>
+                                <div class="col-sm-7">
+                                    <span class="block input-icon input-icon-right">
+                                        <input type="text" class="form-control" placeholder="Address" ng-model="signup.address" />
+                                    </span>
+                                </div>
+                            </div-->
+                            <div class="form-group">
+                                <span class="lbl col-sm-5"> </span>
+                                <div class="col-sm-7">
+                                    <button type="submit" class="width-35 pull-right btn btn-sm btn-primary" ng-click="doSignUp(signup)" data-ng-disabled="signupForm.$invalid">
+                                        Cadastrar
+                                    </button>
+                                </div>
+                            </div>
+
+                            </fieldset>
+                            <span class="lbl col-sm-5"> </span>
+                            <div class="col-sm-7">Já possui uma conta? <a href="#/login">Entrar</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- /.page-content -->

@@ -1,0 +1,123 @@
+<div class="breadcrumbs" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="ace-icon fa fa-home home-icon"></i>
+            <a href="#">Página Inicial</a>
+        </li>
+        <li class="active">Agenda</li>
+    </ul>
+</div>
+<div class="page-content">
+	<div id='calendarCtrl' ng-controller="CalendarCtrl">
+		<script type="text/ng-template" id="myModalContent.html">
+    	    <div class="modal-header">
+    	        <h3 class="modal-title">Dados da Consulta</h3>
+    	    </div>
+    	    <div class="modal-body">
+    	        <!-- <ul>
+    	            <li ng-repeat="item in items">
+    	                <a href="#" ng-click="$event.preventDefault(); selected.item = item">{{ item }}</a>
+    	            </li>
+    	        </ul> -->
+				<form id="appointmentForm" method="post" class="form-horizontal">
+					<div class="form-group">
+				   		<label class="col-xs-3 control-label">Beneficiário</label>
+						<div class="col-xs-4">
+				   		    <input type="text" class="form-control" placeholder="(54) 9954-4269" name="userid" ng-model="appointmentData.userId" 
+				   		    		ng-blur="getBeenfByPhone(appointmentData.userId)" ng-readonly="isUpdated" mask="(99) 9999-9999" mask-clean="true"/>
+				   		</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-3 control-label"></label>
+					    <div class="col-xs-8">
+					        <input type="text" class="form-control" placeholder="Nome Sobrenome" name="name" ng-model="appointmentData.title" ng-readonly="isUpdated"/>
+					    </div>
+					</div>
+					<div class="form-group">
+					    <label class="col-xs-3 control-label">Carteira</label>
+					    <div class="col-xs-8">
+					        <input type="text" name="helthcareId" placeholder="healthcareId" class="form-control" ng-model="appointmentData.healthcareId" ng-readonly="isUpdated" 	/>
+					    </div>
+					</div>
+					<!--div class="form-group">
+					    <label class="col-xs-3 control-label">Horário</label>
+					    <div class="col-xs-8">
+					        <input type="text" name="period" class="form-control" ng-model="appointmentData.period" ng-readonly="isUpdated" placeholder="11/11/2001 - 10:45"/>
+					    </div>
+					</div-->	
+					<div class="form-group">
+					    <label class="col-xs-3 control-label">Horário</label>
+					    <div class="col-xs-4">
+					        <p class="input-group">
+							  <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" 
+							  										ng-model="appointmentData.periodT" is-open="status.opened" 
+							  										datepicker-options="dateOptions" 
+							  										date-disabled="disabled(date, mode)" ng-required="true" 
+							  										close-text="Fechar" current-text="Hoje" clear-text="Limpar" />
+							  <span class="input-group-btn">
+							    <button type="button" class="btn btn-default" ng-click="openSchedule($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+							  </span>
+							</p>
+					    </div>
+					    <div class="col-xs-4">
+					        <ng-timepicker ng-model="appointmentData.periodH" init-time="{{appointmentData.periodH}}"  theme="blue"></ng-timepicker> <!-- step="20" init-time="09:00" -->
+					    </div>					    
+					</div>	
+						
+					<div class="form-group">
+						 <label class="col-xs-3 control-label">Ação</label>
+						 <div class="col-xs-5 selectContainer">
+						 		<!--select class="form-control"  ng-model="appointmentData.hitSatatus" ng-selected="2" ng-options="status.description for status in statusList track by status.value"  required/-->
+						 		<select class="form-control" ng-model="appointmentData.hitStatus" ng-options="i.value as i.description for i in statusList">
+        							<option value=""></option>
+      							</select>
+      							<!-- {{appointmentData.hitStatus}} -->
+						 </div>
+					</div>			    	
+					<!--div class="form-group">
+						 <label class="col-xs-3 control-label">Ação</label>
+						 <div class="col-xs-5 selectContainer">
+						 		<select class="form-control"  ng-model="appointmentData.hitSatatus" ng-selected="2" ng-options="status.description for status in statusList track by status.value"  required/>
+						 </div>
+					</div-->
+				</form>	
+				<!-- Selected: <b>{{ selected.item }}</b> -->
+    	    </div>	
+    	    <div class="modal-footer">
+				<button class="btn btn-primary" type="button" ng-disabled="!isActive"  ng-click="confirmEvent()">Confirmar</button>						
+    	        <button class="btn btn-warning" type="button" ng-click="cancel()">Sair</button>
+    	    </div>
+    	</script>
+
+    	<div class="alert-success calAlert" ng-show="alertMessage != undefined && alertMessage != ''">
+            <h4>{{alertMessage}}</h4>
+        </div>
+
+    	<div class="btn-toolbar">
+          <p class="pull-right lead">Opções de visualização</p>
+          <!--div class="btn-group">
+              <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar')">Agenda Dia</button>
+              <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar')">Agenda Semana</button>
+              <button class="btn btn-success" ng-click="changeView('month', 'myCalendar')">Mês</button>
+              <button class="btn btn-success" ng-click="getAllEvents()">Atualiza Eventos</button>
+          </div-->
+          
+          <div class="btn-group">
+              <button class="btn btn-success" aria-label="Left Align" ng-click="addEvents('add')">
+              <span class="lyphicon glyphicon-plus"></span> Adicionar Consulta</button>              
+              <!--button class="btn btn-success" ng-click="getAllEvents()">Atualiza Consultas</button-->
+          </div>
+        </div>
+
+    	<div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources" ></div> 
+
+		<!--div id='wrap'>
+			<div id='external-events'>
+				<h4>Eventos Externos</h4>
+				<button class="btn btn-primary fc-event" type="button" ng-click="openView('add')">Incluir Consulta</button>
+				<button class="btn btn-primary fc-event" type="button" ng-click="carregarEventos()"> Atualiza consultas</button>
+			</div>
+			<div id='calendar'></div>
+		</div-->
+	</div>	
+</div>
